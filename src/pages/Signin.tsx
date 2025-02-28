@@ -15,13 +15,11 @@ const SignIn = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Handle input change
   const updateCredentials = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setCredentials((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Process login
   const processSignIn = async (event: React.FormEvent) => {
     event.preventDefault();
     const { userEmail, userPassword } = credentials;
@@ -34,7 +32,6 @@ const SignIn = () => {
     setIsSubmitting(true);
     try {
       await loginWithEmailPassword(userEmail, userPassword);
-      toast.success("Welcome back!");
       navigate("/");
     } catch (err: any) {
       toast.error(formatError(err));
@@ -43,11 +40,9 @@ const SignIn = () => {
     }
   };
 
-  // Handle Google authentication
   const authenticateWithGoogle = async () => {
     try {
       await loginWithGoogle();
-      toast.success("Signed in using Google!");
       navigate("/");
     } catch (err: any) {
       toast.error(formatError(err));
@@ -56,51 +51,11 @@ const SignIn = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen p-4">
-      <div className="bg-gray-100 p-6 rounded-sm shadow-lg w-full max-w-sm sm:w-96">
+      <div className="bg-gray-100 p-6 rounded-sm shadow-lg w-full max-w-lg max-h-lg">
         <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
           Sign In
         </h2>
-
-        <form onSubmit={processSignIn}>
-          {/* Email Input */}
-          <div className="mb-4">
-            <input
-              type="email"
-              name="userEmail"
-              value={credentials.userEmail}
-              onChange={updateCredentials}
-              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Email Address"
-              required
-            />
-          </div>
-
-          {/* Password Input */}
-          <div className="mb-4">
-            <input
-              type="password"
-              name="userPassword"
-              value={credentials.userPassword}
-              onChange={updateCredentials}
-              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Password"
-              required
-            />
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className={`bg-blue-500 text-white p-2 rounded-md w-full hover:bg-blue-600 transition ${
-              isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-            }`}
-          >
-            {isSubmitting ? "Signing In..." : "Login"}
-          </button>
-        </form>
-
-        {/* Google Sign-In Button */}
+        <p className="text-gray-600 flex justify-center mb-4">Login Using</p>
         <div>
           <svg
             onClick={authenticateWithGoogle}
@@ -147,11 +102,51 @@ const SignIn = () => {
             </g>
           </svg>
         </div>
+        <div className="flex items-center justify-center w-full my-4">
+      <div className="flex-grow border-t border-gray-300"></div>
+      <span className="flex-shrink mx-4 text-gray-500 text-sm font-medium">OR</span>
+      <div className="flex-grow border-t border-gray-300"></div>
+    </div>
+        <form onSubmit={processSignIn}>
+          <div className="mb-4">
+            <input
+              type="email"
+              name="userEmail"
+              value={credentials.userEmail}
+              onChange={updateCredentials}
+              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Email"
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <input
+              type="password"
+              name="userPassword"
+              value={credentials.userPassword}
+              onChange={updateCredentials}
+              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Password"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`bg-gray-600 text-white p-2 rounded-md w-full hover:bg-blue-600 transition ${
+              isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+            }`}
+          >
+            Login
+          </button>
+        </form>
 
         <p className="text-center text-gray-600 mt-4">
           No account yet?{" "}
-          <Link to="/register" className="text-blue-500 hover:underline font-medium">
-            Sign up here
+          <Link to="/register" className="text-gray-600 hover:underline font-medium">
+            Register
           </Link>
         </p>
       </div>

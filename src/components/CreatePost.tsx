@@ -44,17 +44,17 @@ const AddPost = ({ onPostAdded }: { onPostAdded: () => void }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedImage) {
-      toast.error("Please upload an image.");
+      toast.error("Pick an image to upload.");
       return;
     }
 
     setLoading(true);
     try {
       const imageUrl = await uploadImage(selectedImage);
-      if (!imageUrl) throw new Error("Image upload failed.");
+      if (!imageUrl) throw new Error("Upload failed. Try again.");
 
       await addPostToFirestore(imageUrl);
-      toast.success("Post added successfully!");
+      toast.success("Post added!");
       setSelectedImage(null);
       onPostAdded();
     } catch (err) {
@@ -66,7 +66,7 @@ const AddPost = ({ onPostAdded }: { onPostAdded: () => void }) => {
 
   const addPostToFirestore = async (imageFile: string): Promise<string> => {
     const userId = auth.currentUser?.uid;
-    if (!userId) throw new Error("User not logged in");
+    if (!userId) throw new Error("Please login");
   
     try {
       const postRef = await addDoc(collection(db, "posts"), {

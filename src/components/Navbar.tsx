@@ -54,23 +54,14 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="flex ml-auto items-center space-x-2 sm:space-x-4">
-          <Link
-            to="/login"
-            className={`text-sm sm:text-base font-bold hover:text-gray-500 ${isActive(
-              "/login"
-            )}`}
+            <button
+            onClick={async () => {
+              navigate("/login");
+            }}
+            className="text-sm sm:text-base ml-auto cursor-pointer text-white bg-gray-600 px-3 sm:px-4 py-1.5 rounded hover:bg-gray-800 transition-all"
           >
             Login
-          </Link>
-
-          <Link
-            to="/register"
-            className={`text-sm sm:text-base font-bold hover:text-gray-500 ${isActive(
-              "/register"
-            )}`}
-          >
-            Register
-          </Link>
+          </button>
         </div>
       )}
     </nav>
